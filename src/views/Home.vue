@@ -16,6 +16,10 @@ import axios from '@/utils/axios';
             </div>
         </div>
     </section>
+    <p>
+        test
+        <p class="test-btn">lalalalala</p>
+    </p>
     <section class="bg-neutral-5 py-5 mt-5">
         <div class="container mx-auto ">
             <h2 class="text-2xl text-black font-bold text-center pb-6">催落特色</h2>
