@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import BaseLayout from '@/layouts/Base.vue'
+import BoardLayout from '@/layouts/Board.vue'
 
 const routes = [
     {
@@ -9,8 +10,12 @@ const routes = [
         meta: {
             requiresAuth: false,
             extendsLayout: BaseLayout,
-
         }
+    },
+    {
+        path: '/board/:id',
+        name: 'board',
+        component: BoardLayout,
     },
 ]
 
