@@ -5,9 +5,12 @@ import BaseButton from '../BaseButton.vue';
 import ShareModal from './ShareModal.vue'
 import { useWorkSpaceData } from '@/stores/workSpace';
 import { storeToRefs } from 'pinia';
+import checkPinnedStar from '@/assets/icons/red-star.svg'
+import notPinnedStar from '@/assets/icons/gray-star.svg'
+
 
 const workSpaceData = useWorkSpaceData()
-const { workSpaces,pinBoardsData ,boardsData, boardData, boardId } = storeToRefs(workSpaceData)
+const { workSpaces,pinBoardsData, boardId } = storeToRefs(workSpaceData)
 const isOpenShareModal = ref(false)
 
 console.log('workSpaces', workSpaces.value)
@@ -26,46 +29,76 @@ const myOwnerId = ref('')
 
 
 const pinBoard = (pinStatus,ownerId,boardId) => {
-    console.log('pinStatus', pinStatus)
-    console.log('ownerId', ownerId)
-    console.log('boardId', boardId)
-    
-    workSpaces.value.forEach(workSpace => {
-        const boards = workSpace.boards
-        boards.forEach((board, idx) => {
-            if(workSpace.ownerId === ownerId && board.id === boardId) {
-                const boardData = board
-                boardData.owner = workSpace.owner
-                if (pinStatus === 'notPinned') {
-                    boardData.isPinned = true
-                    pinBoardsData.value.push(boardData)
-                }
-
-                if (pinStatus === 'checkPinned') {
-                    boardData.isPinned = false
-                    const index = pinBoardsData.value.findIndex(pinBoard => pinBoard.id === board.id)
-                    if (index !== -1) {
-                        pinBoardsData.value.splice(index, 1)
-                    }
-                }
+    const board = findBoardById(ownerId, boardId)
+    if (!board) return
+    // 根據運算子的相依性及優先序，這段的執行的順序是 1.pinStatus === 'notPinned' 的結果，2.賦予給 board.isPinned
+    // 這樣賦值的方式省去了 if...else 的判斷是，原始的結構為 if (pinStatus === 'notPinned') {board.isPinned = true}
+    board.isPinned = pinStatus === 'notPinned'
+    if (pinStatus === 'notPinned') {
+        pinBoardsData.value.push(board)
+    } else if (pinStatus === 'checkPinned') {
+        const index = pinBoardsData.value.findIndex(pinBoard => pinBoard.id === board.id)
+        if (index !== -1) {
+                pinBoardsData.value.splice(index, 1)
             }
-        })
-    })
-}
+        }
+    }
+    // workSpaces.value.forEach(workSpace => {
+    //     const boards = workSpace.boards
+    //     boards.forEach((board, idx) => {
+    //         if(workSpace.ownerId === ownerId && board.id === boardId) {
+    //             const boardData = board
+    //             boardData.owner = workSpace.owner
+    //             if (pinStatus === 'notPinned') {
+    //                 boardData.isPinned = true
+    //                 pinBoardsData.value.push(boardData)
+    //             }
+
+    //             if (pinStatus === 'checkPinned') {
+    //                 boardData.isPinned = false
+    //                 const index = pinBoardsData.value.findIndex(pinBoard => pinBoard.id === board.id)
+    //                 if (index !== -1) {
+    //                     pinBoardsData.value.splice(index, 1)
+    //                 }
+    //             }
+    //         }
+    //     })
+    // })
+// }
 
 const shareBoard = (boardId, ownerId) => {
-    workSpaces.value.forEach(workSpace => {
-        // console.log('WorkSpace', workSpace)
-        const boards = workSpace.boards
-        boards.forEach(board => {
-            if (workSpace.ownerId === ownerId && board.id === boardId) {
-                myBoardId.value = boardId
-                myOwnerId.value = ownerId
-                isOpenShareModal.value = true
-                // console.log('yes the same')
+    const board = findBoardById(ownerId, boardId)
+    if (board) {
+        myBoardId.value = boardId
+        myOwnerId.value = ownerId
+        isOpenShareModal.value = true
+    }
+    // workSpaces.value.forEach(workSpace => {
+    //     // console.log('WorkSpace', workSpace)
+    //     const boards = workSpace.boards
+    //     boards.forEach(board => {
+    //         if (workSpace.ownerId === ownerId && board.id === boardId) {
+    //             myBoardId.value = boardId
+    //             myOwnerId.value = ownerId
+    //             isOpenShareModal.value = true
+    //         }
+    //     })
+    // })
+}
+
+const findBoardById = (ownerId, boardId) => {
+    // console.log('findBoardById ownerId', ownerId)
+    // console.log('findBoardById boardId', boardId)
+
+    for(const workSpace of workSpaces.value) {
+        if (workSpace.ownerId === ownerId) {
+            const board = workSpace.boards.find(board => board.id === boardId)
+            if (board) {
+                return board
             }
-        })
-    })
+        }
+    }
+    return null
 }
 
 const checkAdd = () => {
@@ -108,16 +141,10 @@ const cancelAdd = () => {
                 <h5 class="text-2xl text-black pt-4 mb-3">{{ board.title }}</h5>
                 <div class="flex items-center gap-3 relative">
                     <img 
-                        v-if="board.isPinned"
                         class="w-6 h-6 cursor-pointer" 
-                        @click="pinBoard('checkPinned', workSpace.ownerId, board.id)" 
-                        src="@/assets/icons/red-star.svg" alt=""
-                    >
-                    <img
-                        v-if="!board.isPinned"
-                        class="w-6 h-6 cursor-pointer" 
-                        @click="pinBoard('notPinned', workSpace.ownerId, board.id)" 
-                        src="@/assets/icons/gray-star.svg" alt=""
+                        @click="pinBoard(board.isPinned? 'checkPinned' : 'notPinned', workSpace.ownerId, board.id)"
+                        :src="board.isPinned? checkPinnedStar: notPinnedStar"
+                        alt=""
                     >
 
                     <img class="w-6 h-6 cursor-pointer" @click="shareBoard(board.id, workSpace.ownerId)" src="@/assets/icons/dots.svg" alt="">
