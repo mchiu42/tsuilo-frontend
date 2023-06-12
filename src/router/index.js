@@ -38,7 +38,13 @@ const routes = [
       extendsLayout: BaseLayout,
     },
   },
+  {
+    path:'/workspaces',
+    component: () => import('@/views/WorkSpaces.vue'),
+  }
 ];
+
+]
 
 const router = createRouter({
   history: createWebHistory(),
