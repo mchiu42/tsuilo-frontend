@@ -12,6 +12,10 @@ const routes = [
 
         }
     },
+    {
+        path:'/workspaces',
+        component: () => import('@/views/WorkSpaces.vue')
+    }
 ]
 
 const router = createRouter({

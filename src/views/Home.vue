@@ -1,6 +1,7 @@
 <script setup>
 import { inject } from 'vue';
 import axios from '@/utils/axios';
+import Footer from '@/components/Footer.vue'
 </script>
 <template>
     <section>
@@ -157,7 +158,8 @@ import axios from '@/utils/axios';
             <img src="@/assets/price.png" alt="" class="mx-auto">
         </div>
     </section>
-    <footer class="text-sm border-t-2 border-gray">
+    <Footer class="bg-neutral-5" />
+    <!-- <footer class="text-sm border-t-2 border-gray">
         <div class="container w-full flex justify-around items-center py-3 mx-auto">
             <div class="text-center">
                 <span>Copyright © 2023 Node.js 北九組</span>
@@ -166,5 +168,5 @@ import axios from '@/utils/axios';
                 <span>隱私權政策</span>
             </div>
         </div>
-    </footer>
+    </footer> -->
 </template>
