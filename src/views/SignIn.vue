@@ -20,7 +20,7 @@ const submitForm = async () => {
     password: passwordInput.value,
   });
   alert("登入成功");
-  router.push({ path: "/profile" });
+  router.push({ path: "/workspaces" });
 };
 </script>
 <template>
