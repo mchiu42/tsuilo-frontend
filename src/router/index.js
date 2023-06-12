@@ -10,7 +10,6 @@ const routes = [
     component: () => import("@/views/Home.vue"),
     meta: {
       requiresAuth: false,
-      extendsLayout: BaseLayout,
     },
   },
   {
@@ -39,12 +38,14 @@ const routes = [
     },
   },
   {
-    path:'/workspaces',
-    component: () => import('@/views/WorkSpaces.vue'),
-  }
+    path: "/workspaces",
+    name: "WorkSpaces",
+    component: () => import("@/views/WorkSpaces.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
-
-]
 
 const router = createRouter({
   history: createWebHistory(),
@@ -53,9 +54,19 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const token = Cookies.get("access_token");
-  if (token && !useUserStore().isAuthenticated) {
+
+  if (token) {
     await useUserStore().authUser();
   }
+
+  if (to.name === "SignIn" || to.name === "SignUp") {
+    if (token) {
+      next({ name: "WorkSpaces" });
+    } else {
+      next();
+    }
+  }
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!token) {
       next({ name: "SignIn" });
