@@ -6,6 +6,7 @@ const customColors = {
   'secondary-1': '#00B3F0',
   'secondary-2': '#90D8F0',
   'secondary-3': '#D6EDF5',
+  'secondary-4': '#0098F0',
   'neutral-1': '#080808',
   'neutral-2': '#3A3A3B',
   'neutral-3': '#6D6D6E',
@@ -13,6 +14,7 @@ const customColors = {
   'neutral-5': '#EBECED',
   'black': '#222426',
   'lightgray': '#F5F5F5',
+  'lightgray-1': '#F1F2F3',
   'white': '#FFFFFF',
 }
 
