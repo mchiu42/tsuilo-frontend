@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import BaseLayout from "@/layouts/Base.vue";
-import BoardLayout from "@/layouts/Board.vue"
+import BoardLayout from "@/views/Board.vue"
 import Cookies from "js-cookie";
 import { useUserStore } from "../stores/user";
 
