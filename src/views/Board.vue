@@ -22,41 +22,42 @@ const listsInfo = computed(() => $baordStore.listsInfo);
 </script>
 
 <template>
-  <div class="h-screen w-[1280px] px-10 bg-x-light-gradient overflow-x-scroll">
-    <div>header</div>
-    <div class="py-4">
-      <div class="flex my-4">
-        <div class="flex items-center basis-1/2">
-          <p class="pr-2">專案標題</p>
-          <i-ic:outline-star-outline />
+  <div class="bg-x-light-gradient h-screen w-full overflow-x-scroll">
+    <Header />
+    <div class="mx-auto px-10 w-[1280px]">
+      <div class="py-4">
+        <div class="flex my-4">
+          <div class="flex items-center basis-1/2">
+            <p class="pr-2">專案標題</p>
+            <i-ic:outline-star-outline />
+          </div>
+          <!-- 右側工具區 -->
+          <div class="flex space-x-2 basis-1/2">
+            <member-list></member-list>
+            <button class="btn btn-outline-secondary">新增圖表</button>
+            <button class="btn btn-outline-secondary">篩選</button>
+            <button class="btn btn-outline-secondary">分享</button>
+            <button class="btn btn-outline-secondary">權限設定</button>
+          </div>
         </div>
-        <!-- 右側工具區 -->
-        <div class="basis-1/2 flex space-x-2">
-          <member-list></member-list>
-          <button class="btn btn-outline-secondary">新增圖表</button>
-          <button class="btn btn-outline-secondary">篩選</button>
-          <button class="btn btn-outline-secondary">分享</button>
-          <button class="btn btn-outline-secondary">權限設定</button>
+
+        <div class="flex space-x-4">
+          <list
+            v-for="list in listsInfo"
+            :key="list.id"
+            :cardsInfo="list.cards"
+            class="flex-shrink-0"
+          />
         </div>
       </div>
 
-      <div class="flex space-x-4">
-        <list
-          v-for="list in listsInfo"
-          :key="list.id"
-          :cardsInfo="list.cards"
-          class="flex-shrink-0"
-        />
-      </div>
-    </div>
-
-    <!-- <draggable v-model="list">
+      <!-- <draggable v-model="list">
         <div v-for="item in list" :key="item.id">
           {{ item.name }}
         </div>
       </draggable> -->
 
-    <!-- <draggable
+      <!-- <draggable
       v-model="list"
       group="people"
       @start="drag = true"
@@ -67,5 +68,6 @@ const listsInfo = computed(() => $baordStore.listsInfo);
         <div>{{ element.name }}</div>
       </template>
     </draggable> -->
+    </div>
   </div>
 </template>
