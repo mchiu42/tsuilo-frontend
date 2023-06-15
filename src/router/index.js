@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import BaseLayout from "@/layouts/Base.vue";
-import BoardLayout from "@/views/Board.vue"
 import Cookies from "js-cookie";
 import { useUserStore } from "../stores/user";
 
@@ -49,7 +48,10 @@ const routes = [
   {
     path: "/board/:id",
     name: "board",
-    component: BoardLayout,
+    component: () => import("@/views/Board.vue"),
+    meta: {
+    requiresAuth: true,
+    },
   },
 ];
 
