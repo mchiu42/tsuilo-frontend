@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import draggable from "vuedraggable";
-import { useBoardStore } from "/src/store";
+import { useBoardStore } from "/src/stores/boardStore";
 
 const $baordStore = useBoardStore();
 const listsInfo = computed(() => $baordStore.listsInfo);
