@@ -17,6 +17,8 @@
     "axios": "^1.4.0",
     "grapheme-splitter": "^1.0.4",
     "js-cookie": "^3.0.5",
+    "pinia": "^2.1.4",
+    "unplugin-icons": "^0.16.3",
     "luxon": "^3.3.0",
     "naive-ui": "^2.34.4",
     "pinia": "^2.0.35",
@@ -24,12 +26,14 @@
     "vee-validate": "^4.9.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
+    "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.1.0",
+    "@iconify/json": "^2.2.78",
+    "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.23",
+    "postcss": "^8.4.24",
     "tailwindcss": "^3.3.2",
-    "vite": "^4.3.2"
+    "vite": "^4.3.9"
   }
 }
