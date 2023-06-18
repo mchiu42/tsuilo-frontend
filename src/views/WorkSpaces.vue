@@ -9,6 +9,7 @@ import WorkSpace from '@/components/workSpace/WorkSpace.vue'
 import Archive from '@/components/workSpace/Archive.vue'
 import Footer from '@/components/Footer.vue'
 import NewBoardModal from '../components/workSpace/NewBoardModal.vue'
+import BoardListsExample from '@/components/BoardListsExample.vue'
 
 
 
@@ -44,6 +45,7 @@ const addWorkSpace = () => {
             <Pinned />
             <WorkSpace />
             <Archive />
+            <BoardListsExample />
         </div>
         <Footer />
     </div>
