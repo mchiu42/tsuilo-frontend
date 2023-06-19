@@ -3,22 +3,28 @@
 @tailwind utilities;
 
 @layer components {
-    .btn {
-        @apply rounded-full py-2 px-5;
-    }
-    .btn-primary {
-        @apply bg-primary-1 text-gray-100 font-semibold  hover:bg-primary-2 transition duration-200;
-    }
-    .btn-primary-2 {
-        @apply bg-primary-2 text-gray-100 font-semibold  hover:bg-primary-3 transition duration-200;
-    }
-    .btn-secondary {
-        @apply bg-secondary-1 text-gray-100 font-semibold  hover:bg-secondary-2 transition duration-200;
-    }
-    .btn-outline-secondary {
-        @apply bg-white border-2 border-secondary-1 text-black font-semibold   hover:border-secondary-2 transition duration-200;
-    }
-    .btn-linear {
-        @apply text-white rounded-full py-2 px-4 bg-gradient-to-r from-primary-1 to-secondary-1;
-    }
+  html {
+    font-size: 16px;
+  }
+  .btn {
+    @apply rounded-full py-2 px-5;
+  }
+  .btn-primary {
+    @apply bg-primary-1 text-gray-100 font-semibold  hover:bg-primary-2 transition duration-200;
+  }
+  .btn-primary-2 {
+    @apply bg-primary-2 text-gray-100 font-semibold  hover:bg-primary-3 transition duration-200;
+  }
+  .btn-secondary {
+    @apply bg-secondary-1 text-gray-100 font-semibold  hover:bg-secondary-2 transition duration-200;
+  }
+  .btn-outline-secondary {
+    @apply bg-white border-2 border-secondary-1 text-black font-semibold   hover:border-secondary-2 transition duration-200;
+  }
+  .btn-linear {
+    @apply text-white rounded-full py-2 px-4 bg-gradient-to-r from-primary-1 to-secondary-1;
+  }
+  .bg-x-light-gradient {
+    @apply bg-gradient-to-r from-primary-3 to-secondary-3;
+  }
 }
