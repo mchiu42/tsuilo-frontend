@@ -3,12 +3,19 @@ import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
+import { useApp } from '@/stores/app';
+import defaultPhoto from '@/assets/images/photo.png'
 
 const userStore = useUserStore();
 const router = useRouter();
 
+const { openPersonalModal } = useApp()
+
 const { user } = storeToRefs(userStore);
 const isNotification = ref(false);
+
+
+
 </script>
 
 <template>
@@ -39,12 +46,13 @@ const isNotification = ref(false);
         />
         <span
           class="flex justify-center items-center gap-4"
-          @click="router.push({ path: '/profile' })"
+          @click="openPersonalModal"
         >
+
           <img
             v-if="user.photo"
             class="w-[44px] h-[44px] cursor-pointer rounded-full"
-            :src="user.photo"
+            :src="user.photo || defaultPhoto"
             alt="user-photo"
           />
           <img

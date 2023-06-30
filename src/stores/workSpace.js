@@ -1,8 +1,10 @@
 import { defineStore } from "pinia";
 import { ref, reactive } from 'vue'
+import axios from "@/utils/axios";
+
 
 export const useWorkSpaceData = defineStore('workSpaceData', () => {
-    const name = ref('name')
+
     const boardId = ref(0)
     const boardsData = reactive([
         {
@@ -136,6 +138,56 @@ export const useWorkSpaceData = defineStore('workSpaceData', () => {
                     content: ''
                 },
                 ]
+            },
+            {
+                id: 3,
+                title: '產品部會議紀錄eded',
+                description: '會議紀錄',
+                isArchive: false,
+                isPinned: false,
+                cards: [
+                {
+                    name:'架構設計',
+                    content: ''
+                },
+                {
+                    name:'需求規劃',
+                    content: ''
+                },
+                {
+                    name:'參考資料',
+                    content: ''
+                },
+                {
+                    name:'週會',
+                    content: ''
+                },
+                ]
+            },
+            {
+                id: 3,
+                title: '產品部會議紀錄eded',
+                description: '會議紀錄',
+                isArchive: false,
+                isPinned: false,
+                cards: [
+                {
+                    name:'架構設計',
+                    content: ''
+                },
+                {
+                    name:'需求規劃',
+                    content: ''
+                },
+                {
+                    name:'參考資料',
+                    content: ''
+                },
+                {
+                    name:'週會',
+                    content: ''
+                },
+                ]
             }
             ]
         },
@@ -213,13 +265,27 @@ export const useWorkSpaceData = defineStore('workSpaceData', () => {
     const pinBoardsData = reactive([])
 
 
+    // get all workspace api
+    const getWorkSpaces = async () => {
+        return await axios.get('http://127.0.0.1:8500/api/workspaces').then((response) => response)
+        // return await axios.get('/workspaces').then((response) => response)        
+    }
+
+    // post workspace api
+    const postWorkSpace = async (newSpace) => {
+        console.log('postWorkSpace newSpace', newSpace)
+        await axios.post('http://127.0.0.1:8500/api/workspaces', newSpace)
+    }
+
+
     return {
-        name,
         workSpaces,
         archiveBoards,
         pinBoardsData,
         boardsData,
         boardData,
-        boardId
+        boardId,
+        getWorkSpaces,
+        postWorkSpace
     }
 })
