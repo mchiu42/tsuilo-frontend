@@ -41,9 +41,9 @@ const routes = [
     path: "/workspaces",
     name: "WorkSpaces",
     component: () => import("@/views/WorkSpaces.vue"),
-    meta: {
-      requiresAuth: true,
-    },
+    // meta: {
+    //   requiresAuth: true,
+    // },
   },
   {
     path: "/board/:id",

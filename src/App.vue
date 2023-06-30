@@ -5,9 +5,16 @@ import { useRoute } from 'vue-router';
 const route = useRoute()
 const extendsLayout = computed(() => route.meta.extendsLayout);
 import { NNotificationProvider, NMessageProvider } from 'naive-ui';
+import { useApp } from '@/stores/app';
+import { storeToRefs } from 'pinia';
+
+const appData  = useApp()
+const { controlPersonalModal } = storeToRefs(appData)
+
 </script>
 
 <template>
+  <PersonalModal />
   <n-message-provider>
     <n-notification-provider>
       <template v-if="extendsLayout">

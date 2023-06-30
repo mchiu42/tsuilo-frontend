@@ -28,11 +28,12 @@ axiosInstance.interceptors.response.use(
     console.groupCollapsed(
       `%c${response.config.method.toUpperCase()} - ${response.config.url}`,
       "color: #00A7F7; font-weight: bold;"
-    );
+      );
     console.log(response);
     console.groupEnd();
     let result = response.data;
     if (result.success === true) {
+      console.log('result', result)
       return result.data;
     } else {
       throw new Error(result.message);

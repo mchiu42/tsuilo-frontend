@@ -1,18 +1,46 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue'
+import { reactive, ref, defineProps, defineEmits } from 'vue'
+import { storeToRefs } from 'pinia';
+import { useWorkSpaceData } from '@/stores/workSpace';
+import { useUserStore } from '@/stores/user';
 import BaseButton from '@/components/BaseButton.vue'
+
+const workSpaceData = useWorkSpaceData();
+const { postWorkSpace, getWorkSpaces } = workSpaceData
+
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
+console.log('user', user.value)
+
+const newSpace = ref({
+    ownerName: user.value.name,
+    ownerId: user.value._id,
+    spaceName: '',
+    description: '',
+    isPublic: false
+
+})
+
 const props = defineProps({
     isAddWorkspace: Boolean
 })
 
-const emit = defineEmits(['update:isAddWorkspace'])
+const emit = defineEmits(['update:isAddWorkspace'], 'getWorkSpaces')
 const closeModal = () => {
     emit('update:isAddWorkspace', false)
 }
 
-const checkAddSpace = () => {
+const checkAddSpace = async() => {
     console.log('checkAddSpace')
-    emit('update:isAddWorkspace', false)
+    try {
+        await postWorkSpace(newSpace.value)
+        newSpace.value = {}
+        emit('update:isAddWorkspace', false)
+        emit('getWorkSpaces')
+
+    } catch (error) {
+        console.log('error', error)
+    }
 }
 </script>
 
@@ -21,7 +49,7 @@ const checkAddSpace = () => {
     <transition name="fade">
         <div v-if="props.isAddWorkspace" class="absolute top-full translate-y-[8px] z-10 right-0 w-[416px] bg-white rounded-lg border-2 border-neutral-5 shadow-[4px_4px_15px_rgba(0,0,0,0.05)]">
             <!-- modal header -->
-            <div class="p-4 flex justify-between items-center border border-b-neutral-5">
+            <div class="p-4 flex justify-between items-center border-b border-neutral-5">
                 <h5 class="text-xl text-black">新增工作區</h5>
                 <img @click="closeModal" class="w-5 h-5 cursor-pointer" src="@/assets/icons/close.svg" alt="">
             </div>
@@ -30,20 +58,30 @@ const checkAddSpace = () => {
                 <div class="mb-6">
                     <h6 class="mb-2 font-medium text-black">工作區名稱</h6>
                     <input
-                    class="w-full bg-neutral-5 rounded-full px-6 py-3"
-                    placeholder="輸入名稱"
-                    type="text"
+                        v-model="newSpace.spaceName"
+                        class="w-full bg-neutral-5 rounded-full px-6 py-3"
+                        placeholder="輸入名稱"
+                        type="text"
                     >
                 </div>
                 <div class="mb-6">
                     <h6 class="mb-2 font-medium text-black">工作區描述</h6>
-                    <textarea class="w-full px-4 py-6 bg-neutral-5 rounded-full" placeholder="輸入描述"></textarea>
+                    <textarea
+                        v-model="newSpace.description"
+                        class="w-full px-4 py-6 bg-neutral-5 rounded-full"
+                        placeholder="輸入描述"
+                    />
                 </div>
                 <div class="mb-6">
                     <h6 class="mb-2 font-medium text-black">隱私設定</h6>
                     <div class="relative">
-                        <select class="w-full py-3 px-6 border border-secondary-4 rounded-full appearance-none text-neutral-3" name="" id="">
-                            <option value="">私密工作區</option>
+                        <select
+                            v-model="newSpace.isPublic"
+                            class="w-full py-3 px-6 border border-secondary-4 rounded-full appearance-none text-neutral-3"
+                            name=""
+                            id=""
+                        >
+                            <option value="私密工作區">私密工作區</option>
                         </select>
                         <img class="w-6 h-6 absolute top-1/2 -translate-y-1/2 right-6" src="@/assets/icons/arrow.svg" alt="">
                     </div>
@@ -61,7 +99,7 @@ const checkAddSpace = () => {
                 </div>
             </div>
             <!-- body footer -->
-            <div class="border border-t-neutral-5 p-4 flex justify-end">
+            <div class="border-t border-neutral-5 p-4 flex justify-end">
                 <BaseButton @click="checkAddSpace" class="text-white bg-primary-1 px-6 py-4">
                     新增工作區
                 </BaseButton>

@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 
 const workSpaceData = useWorkSpaceData()
 const { workSpaces, pinBoardsData, boardsData, boardData, boardId } = storeToRefs(workSpaceData)
-console.log('pinned', pinBoardsData.value)
+// console.log('pinned', pinBoardsData.value)
 const workSpaceOwner = ref('')
 const removePinBoard = (owner) => {
     console.log('removePinBoard owner', owner)
